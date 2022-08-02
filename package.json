@@ -2,9 +2,9 @@
   "name": "datavizs-geojson",
   "version": "1.0.0",
   "description": "GeoJSON Server for datavizs",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "build": "node index.js"
+    "build": "node main.js"
   },
   "author": "",
   "type": "module",

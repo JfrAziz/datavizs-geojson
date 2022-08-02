@@ -55,7 +55,7 @@ const createGeoJSONImage = async (filename) => {
 }
 
 const createIndexGeoJSON = (dir) => {
-  const exclude = ["node_modules", ".gitignore", ".git", "index.js", "package.json", "package-lock.json"];
+  const exclude = ["node_modules", ".gitignore", ".git", "index.js", "package.json", "package-lock.json", ".vercel"];
 
   // list all files in the directory
   try {
@@ -73,7 +73,7 @@ const createIndexGeoJSON = (dir) => {
       result.push({
         name: folder.name,
         type: "folder",
-        url: `${lessDotPrefix}/${folder.name}`
+        endpoint: `${lessDotPrefix}/${folder.name}`
       })
 
       createIndexGeoJSON(`${dir}/${folder.name}`)
@@ -88,7 +88,7 @@ const createIndexGeoJSON = (dir) => {
         name: file.name,
         type: "geojson",
         thumbnail: `${lessDotPrefix}/${removeExtension(file.name)}.png`,
-        url: `${lessDotPrefix}/${file.name}`
+        endpoint: `${lessDotPrefix}/${file.name}`
       })
     })
 
