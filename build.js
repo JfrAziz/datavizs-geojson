@@ -1,6 +1,7 @@
 import path from "path"
 import sharp from 'sharp';
 import { JSDOM } from 'jsdom';
+import crypto from "crypto"
 import { select, geoPath, geoMercator } from 'd3';
 import { promises as fs, readdirSync, writeFileSync } from "fs"
 
@@ -14,7 +15,7 @@ const createGeoJSONImage = async (filename) => {
 
   const HEIGHT = 256;
 
-  const COLORS = ['#08e64e', '#00d887', '#00c6a6', '#41b1ae'];
+  const COLORS = ['#63e6be', '#38d9a9', '#20c997', '#12b886'];
 
   let geoJSON
   try {
@@ -71,6 +72,7 @@ const createIndexGeoJSON = (dir) => {
 
     folders.forEach(folder => {
       result.push({
+        id: crypto.createHash('md5').update(`${lessDotPrefix}/${folder.name}`).digest('hex'),
         name: folder.name,
         type: "folder",
         endpoint: `${lessDotPrefix}/${folder.name}`
@@ -85,6 +87,7 @@ const createIndexGeoJSON = (dir) => {
       console.log(`Build GeoJSON Image: ${lessDotPrefix}/${file.name}`)
 
       result.push({
+        id: crypto.createHash('md5').update(`${lessDotPrefix}/${file.name}`).digest('hex'),
         name: file.name,
         type: "geojson",
         thumbnail: `${lessDotPrefix}/${removeExtension(file.name)}.png`,
@@ -100,6 +103,3 @@ const createIndexGeoJSON = (dir) => {
 }
 
 createIndexGeoJSON(".")
-
-// renderGeoJSONtoImage("world.geojson")
-// renderGeoJSONtoImage("Asia/Indonesia.geojson")
