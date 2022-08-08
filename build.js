@@ -10,6 +10,8 @@ const removeDotPrefix = (str) => str.split('.').join("")
 
 const removeExtension = (str) => str.split('.').slice(0, -1).join('.')
 
+const underScoreToSpace = (str) => str.split('_').join(" ")
+
 const createGeoJSONImage = async (filename) => {
   const WIDTH = 256
 
@@ -51,6 +53,7 @@ const createGeoJSONImage = async (filename) => {
     .attr("d", geoGenerator)
     .attr('fill', (d, i) => COLORS[i % 4])
     .attr('stroke', '#fff');
+  
 
   await sharp(Buffer.from(window.d3.select('.container').html())).png().toFile(`${removeExtension(filename)}.png`)
 }
@@ -88,7 +91,7 @@ const createIndexGeoJSON = (dir) => {
 
       result.push({
         id: crypto.createHash('md5').update(`${lessDotPrefix}/${file.name}`).digest('hex'),
-        name: file.name,
+        name: underScoreToSpace(removeExtension(file.name)),
         type: "geojson",
         thumbnail: `${lessDotPrefix}/${removeExtension(file.name)}.png`,
         endpoint: `${lessDotPrefix}/${file.name}`
